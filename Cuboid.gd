@@ -1,0 +1,27 @@
+tool
+extends Spatial
+
+signal collided_with_player(normal)
+
+export(int, 2, 1000) var width = 2 setget set_width
+export(int, 2, 1000) var height = 2 setget set_height
+
+func _ready():
+	resize()
+
+func set_width(new_width):
+	width = clamp(new_width, 2, 1000)
+	if Engine.editor_hint:
+		resize()
+
+func set_height(new_height):
+	height = clamp(new_height, 2, 1000)
+	if Engine.editor_hint:
+		resize()
+
+func resize():
+	$MeshInstance.mesh.size = Vector3(width, height, 2)
+	$CollisionShape.shape.set_extents(Vector3(width/2, height/2, 1))
+
+func collided_with_player(normal):
+	emit_signal("collided_with_player", normal)
