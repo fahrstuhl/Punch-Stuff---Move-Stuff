@@ -1,15 +1,28 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Content.gd" type="Script" id=2]
 [ext_resource path="res://MovableCuboid.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Cuboid.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MovingTile.gd" type="Script" id=5]
+[ext_resource path="res://green.material" type="Material" id=6]
+[ext_resource path="res://Text.tscn" type="PackedScene" id=7]
+[ext_resource path="res://yellow.material" type="Material" id=8]
+[ext_resource path="res://blue.material" type="Material" id=9]
+[ext_resource path="res://red.material" type="Material" id=10]
 
-[sub_resource type="BoxShape" id=3]
+[sub_resource type="ViewportTexture" id=4]
+
+[sub_resource type="ViewportTexture" id=5]
+
+[sub_resource type="ViewportTexture" id=6]
+
+[sub_resource type="ViewportTexture" id=7]
+
+[sub_resource type="BoxShape" id=2]
 extents = Vector3( 1, 1, 1.5 )
 
-[sub_resource type="CapsuleMesh" id=4]
+[sub_resource type="CapsuleMesh" id=3]
 
 [node name="Game" type="Node"]
 
@@ -24,7 +37,7 @@ __meta__ = {
 }
 
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 1024, 600 )
+size = Vector2( 1280, 720 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -32,7 +45,7 @@ render_target_update_mode = 3
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport/Content"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 3, 30 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 3, 30 )
 
 [node name="Level" type="Spatial" parent="ViewportContainer/Viewport/Content"]
 
@@ -40,38 +53,58 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 3, 30 )
 
 [node name="Floor" parent="ViewportContainer/Viewport/Content/Level/Start" instance=ExtResource( 4 )]
 width = 40
+material = ExtResource( 6 )
 
 [node name="Wall" parent="ViewportContainer/Viewport/Content/Level/Start" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 19, 0 )
 height = 40
+material = ExtResource( 6 )
 
 [node name="JumpBlock" parent="ViewportContainer/Viewport/Content/Level/Start" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4, 0 )
 width = 4
 height = 6
+material = ExtResource( 6 )
+
+[node name="Text" parent="ViewportContainer/Viewport/Content/Level/Start" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 17, 0 )
+texture = SubResource( 4 )
+text = " Jump with A or Space"
+size = Vector2( 3000, 800 )
 
 [node name="TooHighBlock" parent="ViewportContainer/Viewport/Content/Level/Start" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 5.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 5, 0 )
 width = 4
 height = 8
+material = ExtResource( 6 )
 
 [node name="TooFar" type="Spatial" parent="ViewportContainer/Viewport/Content/Level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0 )
 
+[node name="Text" parent="ViewportContainer/Viewport/Content/Level/TooFar" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 17, 0 )
+texture = SubResource( 5 )
+text = "Dash with B or Ctrl"
+size = Vector2( 3000, 800 )
+
 [node name="Floor" parent="ViewportContainer/Viewport/Content/Level/TooFar" instance=ExtResource( 4 )]
 width = 40
+material = ExtResource( 6 )
 
 [node name="GetUpHelper" parent="ViewportContainer/Viewport/Content/Level/TooFar" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 2.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 2, 0 )
+material = ExtResource( 6 )
 
 [node name="TooFarBlock" parent="ViewportContainer/Viewport/Content/Level/TooFar" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 5, 0 )
 width = 24
 height = 8
+material = ExtResource( 6 )
 
 [node name="MovableCuboid" parent="ViewportContainer/Viewport/Content/Level/TooFar" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 17, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 17, 0 )
 UP = true
+material = ExtResource( 8 )
 
 [node name="Blocking" type="Spatial" parent="ViewportContainer/Viewport/Content/Level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, 0 )
@@ -79,51 +112,191 @@ script = ExtResource( 5 )
 
 [node name="Floor" parent="ViewportContainer/Viewport/Content/Level/Blocking" instance=ExtResource( 4 )]
 width = 40
+material = ExtResource( 8 )
 
 [node name="Wall" parent="ViewportContainer/Viewport/Content/Level/Blocking" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 19, 0 )
 height = 40
+material = ExtResource( 8 )
 
 [node name="Usable" type="Spatial" parent="ViewportContainer/Viewport/Content/Level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 80, -40, 0 )
 script = ExtResource( 5 )
 
+[node name="Cuboid6" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 23, 0 )
+material = ExtResource( 8 )
+
+[node name="Cuboid" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 16, 0 )
+width = 16
+material = ExtResource( 8 )
+
+[node name="Cuboid2" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 12, 0 )
+height = 10
+material = ExtResource( 8 )
+
 [node name="WallUpper" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 27, 0 )
 height = 24
+material = ExtResource( 8 )
 
 [node name="Floor" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
-width = 40
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0 )
+width = 16
+material = ExtResource( 8 )
+
+[node name="Cuboid3" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4, 0 )
+height = 6
+material = ExtResource( 8 )
+
+[node name="Cuboid4" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0 )
+width = 16
+material = ExtResource( 8 )
 
 [node name="WallLower" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 5, 0 )
 height = 8
+material = ExtResource( 8 )
+
+[node name="Cuboid5" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 19, 0 )
+height = 40
+material = ExtResource( 8 )
+
+[node name="MovableCuboid" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 35, 0 )
+RIGHT = true
+material = ExtResource( 9 )
+
+[node name="Cuboid7" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 13, 0 )
+width = 4
+material = ExtResource( 8 )
+
+[node name="Cuboid8" parent="ViewportContainer/Viewport/Content/Level/Usable" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 30, 0 )
+material = ExtResource( 8 )
+
+[node name="Blocking Below" type="Spatial" parent="ViewportContainer/Viewport/Content/Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 80, -80, 0 )
+script = ExtResource( 5 )
+
+[node name="Cuboid3" parent="ViewportContainer/Viewport/Content/Level/Blocking Below" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 19, 0 )
+height = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid2" parent="ViewportContainer/Viewport/Content/Level/Blocking Below" instance=ExtResource( 4 )]
+width = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid" parent="ViewportContainer/Viewport/Content/Level/Blocking Below" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 38, 0 )
+width = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid4" parent="ViewportContainer/Viewport/Content/Level/Blocking Below" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 19, 0 )
+height = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid5" parent="ViewportContainer/Viewport/Content/Level/Blocking Below" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0 )
+width = 40
+material = ExtResource( 8 )
+
+[node name="Blocking Below2" type="Spatial" parent="ViewportContainer/Viewport/Content/Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -40, 0 )
+script = ExtResource( 5 )
+
+[node name="Cuboid3" parent="ViewportContainer/Viewport/Content/Level/Blocking Below2" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 19, 0 )
+height = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid2" parent="ViewportContainer/Viewport/Content/Level/Blocking Below2" instance=ExtResource( 4 )]
+width = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid" parent="ViewportContainer/Viewport/Content/Level/Blocking Below2" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 38, 0 )
+width = 40
+material = ExtResource( 9 )
+
+[node name="Cuboid4" parent="ViewportContainer/Viewport/Content/Level/Blocking Below2" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 19, 0 )
+height = 40
+material = ExtResource( 9 )
+
+[node name="3" type="Spatial" parent="ViewportContainer/Viewport/Content/Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -40, 0 )
+script = ExtResource( 5 )
+
+[node name="Cuboid5" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 38, 0 )
+width = 16
+material = ExtResource( 10 )
+
+[node name="Cuboid2" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 19, 0 )
+height = 40
+material = ExtResource( 10 )
+
+[node name="Cuboid" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 4 )]
+width = 40
+material = ExtResource( 10 )
+
+[node name="Cuboid3" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 19, 0 )
+height = 40
+material = ExtResource( 10 )
+
+[node name="Cuboid4" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 38, 0 )
+width = 16
+material = ExtResource( 10 )
+
+[node name="Text" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23, 0 )
+texture = SubResource( 6 )
+text = "That's it!"
+
+[node name="Text2" parent="ViewportContainer/Viewport/Content/Level/3" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 10, 0 )
+texture = SubResource( 7 )
+text = "Thanks for playing!"
+size = Vector2( 3000, 400 )
 
 [node name="Player" type="KinematicBody" parent="ViewportContainer/Viewport/Content"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 3, 0 )
 script = ExtResource( 1 )
 
 [node name="CanJump1" type="RayCast" parent="ViewportContainer/Viewport/Content/Player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1.5, 0 )
 enabled = true
-cast_to = Vector3( 0, -1.7, 0 )
+cast_to = Vector3( 0, -0.3, 0 )
 
 [node name="CanJump2" type="RayCast" parent="ViewportContainer/Viewport/Content/Player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1.5, 0 )
 enabled = true
-cast_to = Vector3( 0, -1.7, 0 )
+cast_to = Vector3( 0, -0.3, 0 )
 
 [node name="CanJump3" type="RayCast" parent="ViewportContainer/Viewport/Content/Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0 )
 enabled = true
-cast_to = Vector3( 0, -1.7, 0 )
+cast_to = Vector3( 0, -0.3, 0 )
 
 [node name="Shape" type="CollisionShape" parent="ViewportContainer/Viewport/Content/Player"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="Model" type="MeshInstance" parent="ViewportContainer/Viewport/Content/Player"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 4 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="JumpHold" type="Timer" parent="ViewportContainer/Viewport/Content/Player"]
@@ -134,14 +307,14 @@ one_shot = true
 process_mode = 0
 one_shot = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 50.0
-margin_top = 463.0
-margin_right = 90.0
-margin_bottom = 503.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Coyote" type="Timer" parent="ViewportContainer/Viewport/Content/Player"]
+process_mode = 0
+one_shot = true
 
-[connection signal="moving" from="ViewportContainer/Viewport/Content/Level/TooFar/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/Usable" method="_on_moving"]
 [connection signal="moving" from="ViewportContainer/Viewport/Content/Level/TooFar/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/Blocking" method="_on_moving"]
+[connection signal="moving" from="ViewportContainer/Viewport/Content/Level/TooFar/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/Blocking Below" method="_on_moving"]
+[connection signal="moving" from="ViewportContainer/Viewport/Content/Level/TooFar/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/Usable" method="_on_moving"]
+[connection signal="moving" from="ViewportContainer/Viewport/Content/Level/Usable/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/Blocking Below" method="_on_moving"]
+[connection signal="moving" from="ViewportContainer/Viewport/Content/Level/Usable/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/3" method="_on_moving"]
+[connection signal="moving" from="ViewportContainer/Viewport/Content/Level/Usable/MovableCuboid" to="ViewportContainer/Viewport/Content/Level/Blocking Below2" method="_on_moving"]
+[connection signal="timeout" from="ViewportContainer/Viewport/Content/Player/Coyote" to="ViewportContainer/Viewport/Content/Player" method="_on_Coyote_timeout"]

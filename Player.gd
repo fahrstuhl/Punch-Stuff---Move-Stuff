@@ -4,10 +4,11 @@ var ACCELERATION = 5
 var JUMP_ACCELERATION = 200
 var SPEED = 20
 var FALL_SPEED = 60
-var GRAVITY = 2.5
-var JUMP_SPEED = 30
+var GRAVITY = 2
+var JUMP_SPEED = 35
 var DASH_SPEED = 50
 var JUMP_MAX_HOLD_TIME = 0.175
+var COYOTE_TIME = 0.15
 var DASH_TIME = 0.3
 var DASH_ACC = 1
 
@@ -84,7 +85,7 @@ func velocity_curve_move(delta):
 
 	if jumped and not $JumpHold.is_stopped():
 		var jump_strength = $JumpHold.time_left / $JumpHold.wait_time
-		print("time left: {0}\nwait time:{1}\njump strength: {2}".format([$JumpHold.time_left, $JumpHold.wait_time, jump_strength]))
+		#print("time left: {0}\nwait time:{1}\njump strength: {2}".format([$JumpHold.time_left, $JumpHold.wait_time, jump_strength]))
 		y = JUMP_SPEED
 
 	y = y + gravity_acc + dash_acc_y
@@ -102,11 +103,20 @@ func velocity_curve_move(delta):
 		jumped = false
 		in_air = false
 		can_dash = true
-	if not is_on_floor() and not can_jump_colliding():
-		in_air = true
-		can_jump = false
-	if not is_on_floor() and can_jump_colliding():
-		can_jump = in_air
+		$Coyote.stop()
+	else:
+		if can_jump_colliding():
+			can_jump = not jumped or in_air
+			print("Can jump: {0}, In Air: {1}, Jumped: {2}".format([can_jump, in_air, jumped]))
+		else:
+			if not in_air and can_jump and $Coyote.is_stopped():
+				$Coyote.start(COYOTE_TIME)
+				print("starting coyote time")
+			elif $Coyote.is_stopped() or jumped:
+				can_jump = false
+				$Coyote.stop()
+			in_air = true
+
 
 func can_jump_colliding():
 	return $CanJump1.is_colliding() or $CanJump2.is_colliding() or $CanJump3.is_colliding()
@@ -138,3 +148,7 @@ func _input(event):
 		jump(event)
 	if event.is_action_pressed("dash"):
 		dash()
+
+
+func _on_Coyote_timeout():
+	print("coyote time stopped")
